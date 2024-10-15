@@ -1,0 +1,37 @@
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func atbash(inputString string) string {
+	alphabet := "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
+	reversedAlphabet := reverseString(alphabet)
+	
+	reversedAlphabetUpper := strings.ToUpper(reversedAlphabet)
+	
+	translatedString := strings.Map(func(r rune) rune {
+		if idx := strings.IndexRune(alphabet, r); idx != -1 {
+			return rune(reversedAlphabet[idx])
+		} 
+		if idx := strings.IndexRune(strings.ToUpper(alphabet), r); idx != -1 {
+			return rune(reversedAlphabetUpper[idx])
+		}
+		return r
+	}, inputString)
+	
+	return translatedString
+}
+
+func reverseString(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
+}
+
+func main() {
+	fmt.Println(atbash("Здравствуй новый мир!"))
+}

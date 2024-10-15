@@ -1,0 +1,37 @@
+package main
+
+import (
+	"fmt"
+	"sort"
+)
+
+func binarySearch(array []int, searchKey int) int {
+	leftIndex := 0
+	highIndex := len(array) - 1
+
+	for leftIndex <= highIndex {
+		midIndex := (leftIndex + highIndex) / 2
+		if array[midIndex] == searchKey {
+			return midIndex
+		} else if array[midIndex] < searchKey {
+			leftIndex = midIndex + 1
+		} else {
+			highIndex = midIndex - 1
+		}
+	}
+
+	return -1 // Return -1 to indicate the key was not found
+}
+
+func main() {
+	array := []int{23123, 4241, 342, 5, 562, 334, 2, 125, 654, 64, 34, 23469, 897, 564}
+	searchKey := 23469
+	sort.Ints(array)
+	index := binarySearch(array, searchKey)
+	data := -1
+	if index != -1 {
+		data = index
+	}
+	fmt.Println("key:", data)
+	fmt.Println("Hello World!")
+}

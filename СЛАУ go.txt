@@ -1,0 +1,47 @@
+package main
+
+import (
+	"fmt"
+)
+
+func gaussianElimination(matrix [][]float64, constants []float64) []float64 {
+	n := len(constants)
+
+	// Forward elimination
+	for i := 0; i < n; i++ {
+		// Normalize the current row
+		for j := i + 1; j < n; j++ {
+			factor := matrix[j][i] / matrix[i][i]
+			for k := range matrix[j] {
+				matrix[j][k] -= factor * matrix[i][k]
+			}
+			constants[j] -= factor * constants[i]
+		}
+	}
+
+	// Back substitution
+	solution := make([]float64, n)
+	for i := n - 1; i >= 0; i-- {
+		sum := constants[i]
+		for j := i + 1; j < n; j++ {
+			sum -= matrix[i][j] * solution[j]
+		}
+		solution[i] = sum / matrix[i][i]
+	}
+
+	return solution
+}
+
+func main() {
+	// Example usage
+	matrix := [][]float64{
+		{3, 2, -4},
+		{2, 3, 3},
+		{5, -3, 1},
+	}
+
+	constants := []float64{3, 15, 14}
+
+	solution := gaussianElimination(matrix, constants)
+	fmt.Println("Solution:", solution)
+}
